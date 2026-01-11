@@ -3,7 +3,10 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
 		<meta name="generator" content={Astro.generator} />
 		<title>ZeroUno Lab | Digitalizando el Futuro</title>
 	</head>
@@ -19,8 +22,10 @@
 </html>
 
 <script>
-	import '@fontsource/outfit';
-	import '@fontsource/inter';
+	import '@fontsource/outfit/400.css';
+	import '@fontsource/outfit/700.css';
+	import '@fontsource/outfit/900.css';
+	import '@fontsource/inter/900.css';
 	import '../styles/global.css';
 
 	// Binary Rain Animation
@@ -32,7 +37,8 @@
 		let height = canvas.height = window.innerHeight;
 
 		const columns = Math.floor(width / 20);
-		const drops = Array(columns).fill(1);
+		// Initialize drops with random positions to prevent "loading" effect
+		const drops = Array.from({ length: columns }, () => Math.floor(Math.random() * (height / 20)));
 
 		let lastTime = 0;
 		const fps = 30;
