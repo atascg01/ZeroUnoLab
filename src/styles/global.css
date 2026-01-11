@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', sans-serif;
+  
+  --color-neon-blue: #00C2FF;
+  --color-neon-purple: #9D00FF;
+  --color-neon-pink: #FF00D4;
+  --color-dark-bg: #050510;
+  
+  --shadow-neon-blue: 0 0 10px #00C2FF, 0 0 20px #00C2FF;
+  --shadow-neon-pink: 0 0 10px #FF00D4, 0 0 20px #FF00D4;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-dark-bg);
+  color: white;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom Utilities if needed */
+.text-glow-blue {
+  text-shadow: 0 0 10px var(--color-neon-blue), 0 0 20px var(--color-neon-blue);
+}
+
+.text-glow-pink {
+  text-shadow: 0 0 10px var(--color-neon-pink), 0 0 20px var(--color-neon-pink);
+}

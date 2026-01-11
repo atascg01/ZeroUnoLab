@@ -1,0 +1,101 @@
+---
+---
+<section id="contact" class="py-24 bg-dark-bg relative overflow-hidden">
+  <!-- Decoration -->
+  <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-neon-purple/10 blur-[120px] rounded-full"></div>
+
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-8">
+        ¿Listo para <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-neon-purple">innovar</span>?
+      </h2>
+      <p class="text-xl text-gray-300 mb-12">
+        Hablemos de tu próximo proyecto. La primera consulta es gratuita.
+      </p>
+      
+      <form id="contact-form" action="https://formspree.io/f/xykkgryk" method="POST" class="bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-white/10 max-w-2xl mx-auto text-left shadow-2xl relative">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-400 mb-2">Nombre</label>
+            <input type="text" id="name" name="name" class="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-neon-blue transition-colors text-white" placeholder="Tu nombre" required />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+            <input type="email" id="email" name="email" class="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-neon-blue transition-colors text-white" placeholder="tu@empresa.com" required />
+          </div>
+        </div>
+        
+        <div class="mb-6">
+          <label for="message" class="block text-sm font-medium text-gray-400 mb-2">Mensaje</label>
+          <textarea id="message" name="message" rows="4" class="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-neon-blue transition-colors text-white" placeholder="Cuéntanos sobre tu proyecto..." required></textarea>
+        </div>
+        
+        <button type="submit" id="submit-btn" class="w-full bg-gradient-to-r from-neon-blue to-neon-purple text-white font-bold py-4 rounded-lg hover:shadow-[0_0_20px_rgba(157,0,255,0.5)] transition-shadow duration-300 cursor-pointer">
+          Enviar Mensaje
+        </button>
+
+        <p id="form-status" class="mt-4 text-center hidden"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const status = document.getElementById('form-status');
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      
+      // Visual feedback - Loading
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+        submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+      }
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: data,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          status.textContent = "¡Gracias! Tu mensaje ha sido enviado. Nos pondremos en contacto pronto.";
+          status.classList.remove('hidden', 'text-red-500');
+          status.classList.add('text-green-400', 'font-medium', 'animate-fade-in');
+          form.reset();
+        } else {
+          try {
+             const jsonData = await response.json();
+             if (Object.hasOwn(jsonData, 'errors')) {
+               status.textContent = jsonData["errors"].map((error: any) => error["message"]).join(", ");
+             } else {
+               status.textContent = "Hubo un problema al enviar el formulario.";
+             }
+          } catch {
+             status.textContent = "Hubo un problema al enviar el formulario.";
+          }
+          status.classList.remove('hidden', 'text-green-400');
+          status.classList.add('text-red-500');
+        }
+      } catch (error) {
+        status.textContent = "Hubo un error de conexión.";
+        status.classList.remove('hidden', 'text-green-400');
+        status.classList.add('text-red-500');
+      } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Enviar Mensaje';
+            submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+        }
+      }
+    });
+  }
+</script>

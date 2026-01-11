@@ -1,0 +1,21 @@
+{
+  "name": "zerounolab",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/outfit": "^5.2.8",
+    "@iconify-json/simple-icons": "^1.2.66",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.8",
+    "astro-icon": "^1.1.5",
+    "jiti": "^1.21.6",
+    "tailwindcss": "^4.1.18"
+  }
+}

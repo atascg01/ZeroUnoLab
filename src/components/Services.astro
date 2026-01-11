@@ -1,0 +1,57 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+<section id="services" class="py-24 bg-dark-bg relative">
+  <div class="container mx-auto px-6">
+    <h2 class="text-4xl md:text-6xl font-bold mb-16 text-center">
+      Nuestros <span class="text-neon-blue">Servicios</span>
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Web Development Card -->
+      <div class="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-neon-blue/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <h3 class="text-2xl font-bold mb-4 relative z-10">Web a Medida</h3>
+        <p class="text-gray-400 relative z-10">
+          Diseño y desarrollo de sitios web únicos, rápidos y optimizados para SEO. Astro, React, Next.js.
+        </p>
+      </div>
+
+      <!-- Mobile Apps Card (Formatted as a larger item if grid allows, or standard) -->
+      <div class="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-neon-pink/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden md:col-span-2">
+        <div class="absolute inset-0 bg-gradient-to-br from-neon-pink/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <h3 class="text-2xl font-bold mb-4 relative z-10">Aplicaciones Móviles (iOS & Android)</h3>
+        <p class="text-gray-400 relative z-10 max-w-xl">
+          Desarrollo de apps nativas y multiplataforma. Desde gestión interna empresarial hasta productos para usuarios finales.
+        </p>
+        <!-- Tech Icons (Replacing confusing slider) -->
+        <div class="mt-8 flex gap-4 relative z-10">
+            <div class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition-colors duration-300">
+                <Icon name="simple-icons:apple" class="w-6 h-6 text-white" />
+            </div>
+            <div class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition-colors duration-300">
+                <Icon name="simple-icons:android" class="w-6 h-6 text-white" />
+            </div>
+        </div>
+      </div>
+
+      <!-- Social Media -->
+      <div class="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-neon-purple/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden md:col-span-2 lg:col-span-1">
+        <div class="absolute inset-0 bg-gradient-to-br from-neon-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <h3 class="text-2xl font-bold mb-4 relative z-10">Gestión de RRSS</h3>
+        <p class="text-gray-400 relative z-10">
+          Estrategias digitales para crecer tu marca en Instagram, TikTok y LinkedIn.
+        </p>
+      </div>
+
+      <!-- Other Services / Bento filler -->
+      <div class="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-neon-blue/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden md:col-span-2">
+          <div class="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <h3 class="text-2xl font-bold mb-4 relative z-10">Transformación Digital</h3>
+          <p class="text-gray-400 relative z-10">
+            Automatización de procesos, CRM, y consultoría tecnológica integral.
+          </p>
+      </div>
+    </div>
+  </div>
+</section>

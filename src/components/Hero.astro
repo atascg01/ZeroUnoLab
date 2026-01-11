@@ -1,0 +1,73 @@
+---
+---
+<section class="min-h-screen flex flex-col justify-center items-center relative overflow-hidden pt-20">
+  <!-- Dynamic Background Glow -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-neon-blue/20 blur-[100px] rounded-full animate-pulse z-0"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-neon-pink/20 blur-[80px] rounded-full translate-x-20 translate-y-20 z-0"></div>
+
+  <div class="z-10 text-center px-4">
+    <h1 class="mb-4 animate-fade-in flex flex-col items-center justify-center will-change-transform">
+      <div class="relative w-full max-w-[90vw] md:max-w-4xl h-24 md:h-40 flex justify-center items-center">
+        <!-- SVG Text for perfect gradient rendering -->
+        <svg viewBox="0 0 600 120" class="w-full h-full overflow-visible">
+          <defs>
+            <linearGradient id="neon-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#00C2FF;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#9D00FF;stop-opacity:1" />
+            </linearGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="15" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          
+          <!-- Blurred Glow Layer -->
+          <text x="50%" y="85%" text-anchor="middle" font-size="100" font-weight="900" fill="url(#neon-gradient)" filter="url(#glow)" opacity="0.6" style="font-family: 'Inter', sans-serif; letter-spacing: -2px;">
+            ZEROUNO
+          </text>
+          
+          <!-- Main Text Layer -->
+          <text x="50%" y="85%" text-anchor="middle" font-size="100" font-weight="900" fill="url(#neon-gradient)" style="font-family: 'Inter', sans-serif; letter-spacing: -2px;">
+            ZEROUNO
+          </text>
+        </svg>
+      </div>
+      
+      <span class="block text-white text-3xl md:text-5xl font-bold tracking-widest drop-shadow-[0_0_15px_rgba(255,0,212,0.5)] -mt-2 md:-mt-4">
+        LAB
+      </span>
+    </h1>
+    
+    <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto mb-10 tracking-wide font-light">
+      Creación de páginas web a medida, apps móviles y gestión de redes sociales.
+    </p>
+
+    <div class="flex flex-col md:flex-row gap-6 justify-center">
+      <a href="#contact" class="px-8 py-4 bg-white text-dark-bg font-bold rounded-full hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+        Empezar Proyecto
+      </a>
+      <a href="#services" class="px-8 py-4 bg-transparent border border-white/30 text-white font-medium rounded-full hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
+        Ver Servicios
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Optional custom animation if Tailwind 'animate-pulse' isn't enough */
+  .animate-fade-in {
+    animation: fadeIn 1.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

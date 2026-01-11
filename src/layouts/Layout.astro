@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es" class="dark">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>ZeroUno Lab | Digitalizando el Futuro</title>
+	</head>
+	<body class="bg-dark-bg text-white antialiased relative">
+		<!-- Global Binary Rain Background -->
+		<canvas id="binary-rain" class="fixed inset-0 w-full h-full z-0 opacity-10 pointer-events-none"></canvas>
+		
+		<!-- Main Content Slot -->
+		<div class="relative z-10">
+			<slot />
+		</div>
+	</body>
+</html>
+
+<script>
+	import '@fontsource/outfit';
+	import '@fontsource/inter';
+	import '../styles/global.css';
+
+	// Binary Rain Animation
+	const canvas = document.getElementById('binary-rain') as HTMLCanvasElement;
+	const ctx = canvas.getContext('2d');
+
+	if (canvas && ctx) {
+		let width = canvas.width = window.innerWidth;
+		let height = canvas.height = window.innerHeight;
+
+		const columns = Math.floor(width / 20);
+		const drops = Array(columns).fill(1);
+
+		let lastTime = 0;
+		const fps = 30;
+		const nextFrame = 1000 / fps;
+		let timer = 0;
+
+		const draw = (timeStamp: number) => {
+			const deltaTime = timeStamp - lastTime;
+			lastTime = timeStamp;
+
+			if (timer > nextFrame) {
+				ctx.fillStyle = 'rgba(5, 5, 16, 0.05)'; // Fade effect
+				ctx.fillRect(0, 0, width, height);
+
+				ctx.font = '15px monospace';
+
+				for (let i = 0; i < drops.length; i++) {
+					const text = Math.random() > 0.5 ? '1' : '0';
+					const colors = ['#00C2FF', '#9D00FF', '#ffffff'];
+					ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+					ctx.fillText(text, i * 20, drops[i] * 20);
+
+					if (drops[i] * 20 > height && Math.random() > 0.975) {
+						drops[i] = 0;
+					}
+					drops[i]++;
+				}
+				timer = 0;
+			} else {
+				timer += deltaTime;
+			}
+			requestAnimationFrame(draw);
+		};
+
+		requestAnimationFrame(draw);
+
+		window.addEventListener('resize', () => {
+			width = canvas.width = window.innerWidth;
+			height = canvas.height = window.innerHeight;
+            // Adaptation logic
+            const newColumns = Math.floor(width / 20);
+            if (newColumns > drops.length) {
+                for (let i = drops.length; i < newColumns; i++) drops.push(1);
+            } else {
+                drops.length = newColumns;
+            }
+		});
+	}
+</script>
