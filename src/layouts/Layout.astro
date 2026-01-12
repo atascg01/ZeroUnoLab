@@ -1,6 +1,7 @@
 ---
 import { useTranslations } from "../utils/i18n";
 import { defaultLang, ui } from "../i18n/ui";
+import Analytics from "@vercel/analytics/astro";
 
 const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
 const t = useTranslations(lang);
@@ -43,6 +44,7 @@ const t = useTranslations(lang);
 		<div class="relative z-10">
 			<slot />
 		</div>
+		<Analytics />
 	</body>
 </html>
 
