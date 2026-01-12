@@ -1,19 +1,44 @@
+---
+import { useTranslations } from "../utils/i18n";
+import { defaultLang, ui } from "../i18n/ui";
+
+const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
+const t = useTranslations(lang);
+---
+
 <!doctype html>
-<html lang="es" class="dark">
+<html lang={lang} class="dark">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-		<link rel="manifest" href="/site.webmanifest">
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="/apple-touch-icon.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="/favicon-32x32.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="/favicon-16x16.png"
+		/>
+		<link rel="manifest" href="/site.webmanifest" />
 		<meta name="generator" content={Astro.generator} />
-		<title>ZeroUno Lab | Digitalizando el Futuro</title>
+		<title>{t("meta.title")}</title>
 	</head>
 	<body class="bg-dark-bg text-white antialiased relative">
 		<!-- Global Binary Rain Background -->
-		<canvas id="binary-rain" class="fixed inset-0 w-full h-full z-0 opacity-10 pointer-events-none"></canvas>
-		
+		<canvas
+			id="binary-rain"
+			class="fixed inset-0 w-full h-full z-0 opacity-10 pointer-events-none"
+		></canvas>
+
 		<!-- Main Content Slot -->
 		<div class="relative z-10">
 			<slot />
@@ -22,23 +47,25 @@
 </html>
 
 <script>
-	import '@fontsource/outfit/400.css';
-	import '@fontsource/outfit/700.css';
-	import '@fontsource/outfit/900.css';
-	import '@fontsource/inter/900.css';
-	import '../styles/global.css';
+	import "@fontsource/outfit/400.css";
+	import "@fontsource/outfit/700.css";
+	import "@fontsource/outfit/900.css";
+	import "@fontsource/inter/900.css";
+	import "../styles/global.css";
 
 	// Binary Rain Animation
-	const canvas = document.getElementById('binary-rain') as HTMLCanvasElement;
-	const ctx = canvas.getContext('2d');
+	const canvas = document.getElementById("binary-rain") as HTMLCanvasElement;
+	const ctx = canvas.getContext("2d");
 
 	if (canvas && ctx) {
-		let width = canvas.width = window.innerWidth;
-		let height = canvas.height = window.innerHeight;
+		let width = (canvas.width = window.innerWidth);
+		let height = (canvas.height = window.innerHeight);
 
 		const columns = Math.floor(width / 20);
 		// Initialize drops with random positions to prevent "loading" effect
-		const drops = Array.from({ length: columns }, () => Math.floor(Math.random() * (height / 20)));
+		const drops = Array.from({ length: columns }, () =>
+			Math.floor(Math.random() * (height / 20)),
+		);
 
 		let lastTime = 0;
 		const fps = 30;
@@ -50,15 +77,16 @@
 			lastTime = timeStamp;
 
 			if (timer > nextFrame) {
-				ctx.fillStyle = 'rgba(5, 5, 16, 0.05)'; // Fade effect
+				ctx.fillStyle = "rgba(5, 5, 16, 0.05)"; // Fade effect
 				ctx.fillRect(0, 0, width, height);
 
-				ctx.font = '15px monospace';
+				ctx.font = "15px monospace";
 
 				for (let i = 0; i < drops.length; i++) {
-					const text = Math.random() > 0.5 ? '1' : '0';
-					const colors = ['#00C2FF', '#9D00FF', '#ffffff'];
-					ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+					const text = Math.random() > 0.5 ? "1" : "0";
+					const colors = ["#00C2FF", "#9D00FF", "#ffffff"];
+					ctx.fillStyle =
+						colors[Math.floor(Math.random() * colors.length)];
 					ctx.fillText(text, i * 20, drops[i] * 20);
 
 					if (drops[i] * 20 > height && Math.random() > 0.975) {
@@ -75,16 +103,16 @@
 
 		requestAnimationFrame(draw);
 
-		window.addEventListener('resize', () => {
+		window.addEventListener("resize", () => {
 			width = canvas.width = window.innerWidth;
 			height = canvas.height = window.innerHeight;
-            // Adaptation logic
-            const newColumns = Math.floor(width / 20);
-            if (newColumns > drops.length) {
-                for (let i = drops.length; i < newColumns; i++) drops.push(1);
-            } else {
-                drops.length = newColumns;
-            }
+			// Adaptation logic
+			const newColumns = Math.floor(width / 20);
+			if (newColumns > drops.length) {
+				for (let i = drops.length; i < newColumns; i++) drops.push(1);
+			} else {
+				drops.length = newColumns;
+			}
 		});
 	}
 </script>

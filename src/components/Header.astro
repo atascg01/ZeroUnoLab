@@ -1,17 +1,91 @@
 ---
+import { Icon } from "astro-icon/components";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations } from "../utils/i18n";
+import { defaultLang, ui } from "../i18n/ui";
+
+const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
+const t = useTranslations(lang);
 ---
-<header class="fixed top-0 w-full z-50 bg-dark-bg/50 backdrop-blur-lg border-b border-white/10">
+
+<header
+  class="fixed top-0 w-full z-50 bg-dark-bg/50 backdrop-blur-lg border-b border-white/10"
+>
   <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-    <a href="/" class="text-2xl font-bold tracking-tighter">
-      ZERO<span class="text-neon-blue">UNO</span> <span class="text-neon-pink">LAB</span>
+    <a
+      href={getRelativeLocaleUrl(lang, "/")}
+      class="text-2xl font-bold tracking-tighter"
+    >
+      ZERO<span class="text-neon-blue">UNO</span>
+      <span class="text-neon-pink">LAB</span>
     </a>
-    
+
     <nav class="hidden md:flex gap-8 items-center">
-      <a href="#services" class="hover:text-neon-blue transition-colors duration-300">Servicios</a>
-      <a href="#about" class="hover:text-neon-purple transition-colors duration-300">Nosotros</a>
-      <a href="#contact" class="px-5 py-2 rounded-full border border-white/20 hover:border-neon-pink hover:text-neon-pink transition-all duration-300">
-        Contacto
+      <a
+        href="#services"
+        class="hover:text-neon-blue transition-colors duration-300"
+        >{t("nav.services")}</a
+      >
+      <a
+        href="#about"
+        class="hover:text-neon-purple transition-colors duration-300"
+        >{t("nav.about")}</a
+      >
+      <a
+        href="#contact"
+        class="px-5 py-2 rounded-full border border-white/20 hover:border-neon-pink hover:text-neon-pink transition-all duration-300"
+      >
+        {t("nav.contact")}
       </a>
+
+      <div class="relative group">
+        <button
+          class="text-gray-400 hover:text-white transition-colors duration-300 py-2 cursor-pointer"
+          aria-label="Language Menu"
+        >
+          <Icon name="lucide:globe" class="w-6 h-6" />
+        </button>
+
+        <div
+          class="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right"
+        >
+          <div
+            class="bg-dark-bg/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden min-w-[140px] flex flex-col"
+          >
+            <a
+              href={getRelativeLocaleUrl("es", "/")}
+              class:list={[
+                "px-5 py-3 text-sm hover:bg-white/10 transition-colors text-left",
+                lang === "es" ? "text-neon-blue font-bold" : "text-gray-300",
+              ]}
+            >
+              Español
+            </a>
+            <a
+              href={getRelativeLocaleUrl("en", "/")}
+              class:list={[
+                "px-5 py-3 text-sm hover:bg-white/10 transition-colors text-left",
+                lang === "en" ? "text-neon-blue font-bold" : "text-gray-300",
+              ]}
+            >
+              English
+            </a>
+          </div>
+        </div>
+      </div>
     </nav>
+
+    {
+      /* Mobile Menu Button - visible on small screens (implementation might be needed if generic nav is hidden) */
+    }
+    <div class="md:hidden flex items-center gap-4">
+      <a
+        href={getRelativeLocaleUrl(lang === "es" ? "en" : "es", "/")}
+        class="text-gray-400 hover:text-white transition-colors duration-300"
+        aria-label="Change Language"
+      >
+        <Icon name="lucide:globe" class="w-6 h-6" />
+      </a>
+    </div>
   </div>
 </header>

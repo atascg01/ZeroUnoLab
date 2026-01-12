@@ -1,50 +1,126 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
+import { useTranslations } from "../utils/i18n";
+import { defaultLang, ui } from "../i18n/ui";
+
+const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
+const t = useTranslations(lang);
+
+const translations = {
+  sending: t("contact.form.sending"),
+  success: t("contact.form.success"),
+  error: t("contact.form.error"),
+  networkError: t("contact.form.networkError"),
+  submit: t("contact.form.submit"),
+};
 ---
+
 <section id="contact" class="py-24 bg-dark-bg relative overflow-hidden">
   <!-- Decoration -->
-  <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-neon-purple/10 blur-[120px] rounded-full"></div>
+  <div
+    class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-neon-purple/10 blur-[120px] rounded-full"
+  >
+  </div>
 
   <div class="container mx-auto px-6 relative z-10">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="text-4xl md:text-5xl font-bold mb-8">
-        ¿Listo para <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-neon-purple">innovar</span>?
+        {t("contact.title")}
+        <span
+          class="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-neon-purple"
+          >{t("contact.titleHighlight")}</span
+        >
       </h2>
       <p class="text-xl text-gray-300 mb-8">
-        Hablemos de tu próximo proyecto. La primera consulta es gratuita.
+        {t("contact.subtitle")}
       </p>
 
       <div class="flex justify-center gap-6 mb-12">
-        <a href="#" target="_blank" aria-label="Instagram" class="p-3 bg-white/5 rounded-full hover:bg-neon-pink/20 hover:text-neon-pink hover:scale-110 transition-all duration-300 border border-white/10 hover:border-neon-pink">
+        <a
+          href="https://www.instagram.com/zerounolab/"
+          target="_blank"
+          aria-label="Instagram"
+          class="p-3 bg-white/5 rounded-full hover:bg-neon-pink/20 hover:text-neon-pink hover:scale-110 transition-all duration-300 border border-white/10 hover:border-neon-pink"
+        >
           <Icon name="simple-icons:instagram" class="w-6 h-6" />
         </a>
-        <a href="#" target="_blank" aria-label="LinkedIn" class="p-3 bg-white/5 rounded-full hover:bg-neon-blue/20 hover:text-neon-blue hover:scale-110 transition-all duration-300 border border-white/10 hover:border-neon-blue">
+        <a
+          href="https://www.linkedin.com/company/zerounolab/"
+          target="_blank"
+          aria-label="LinkedIn"
+          class="p-3 bg-white/5 rounded-full hover:bg-neon-blue/20 hover:text-neon-blue hover:scale-110 transition-all duration-300 border border-white/10 hover:border-neon-blue"
+        >
           <Icon name="simple-icons:linkedin" class="w-6 h-6" />
         </a>
-        <a href="mailto:hola@zerounolab.com" aria-label="Email" class="p-3 bg-white/5 rounded-full hover:bg-neon-purple/20 hover:text-neon-purple hover:scale-110 transition-all duration-300 border border-white/10 hover:border-neon-purple">
+        <a
+          href="mailto:info@zerounolab.dev"
+          aria-label="Email"
+          class="p-3 bg-white/5 rounded-full hover:bg-neon-purple/20 hover:text-neon-purple hover:scale-110 transition-all duration-300 border border-white/10 hover:border-neon-purple"
+        >
           <Icon name="lucide:mail" class="w-6 h-6" />
         </a>
       </div>
-      
-      <form id="contact-form" action="https://formspree.io/f/xykkgryk" method="POST" class="bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-white/10 max-w-2xl mx-auto text-left shadow-2xl relative">
+
+      <form
+        id="contact-form"
+        action="https://formspree.io/f/xykkgryk"
+        method="POST"
+        class="bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-white/10 max-w-2xl mx-auto text-left shadow-2xl relative"
+      >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-400 mb-2">Nombre</label>
-            <input type="text" id="name" name="name" class="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-neon-blue transition-colors text-white" placeholder="Tu nombre" required />
+            <label
+              for="name"
+              class="block text-sm font-medium text-gray-400 mb-2"
+              >{t("contact.form.name")}</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-neon-blue transition-colors text-white"
+              placeholder={t("contact.form.namePlaceholder")}
+              required
+            />
           </div>
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email</label>
-            <input type="email" id="email" name="email" class="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-neon-blue transition-colors text-white" placeholder="tu@empresa.com" required />
+            <label
+              for="email"
+              class="block text-sm font-medium text-gray-400 mb-2"
+              >{t("contact.form.email")}</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-neon-blue transition-colors text-white"
+              placeholder={t("contact.form.emailPlaceholder")}
+              required
+            />
           </div>
         </div>
-        
+
         <div class="mb-6">
-          <label for="message" class="block text-sm font-medium text-gray-400 mb-2">Mensaje</label>
-          <textarea id="message" name="message" rows="4" class="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-neon-blue transition-colors text-white" placeholder="Cuéntanos sobre tu proyecto..." required></textarea>
+          <label
+            for="message"
+            class="block text-sm font-medium text-gray-400 mb-2"
+            >{t("contact.form.message")}</label
+          >
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            class="w-full bg-dark-bg/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-neon-blue transition-colors text-white"
+            placeholder={t("contact.form.messagePlaceholder")}
+            required></textarea>
         </div>
-        
-        <button type="submit" id="submit-btn" class="w-full bg-gradient-to-r from-neon-blue to-neon-purple text-white font-bold py-4 rounded-lg hover:shadow-[0_0_20px_rgba(157,0,255,0.5)] transition-shadow duration-300 cursor-pointer">
-          Enviar Mensaje
+
+        <button
+          type="submit"
+          id="submit-btn"
+          class="w-full bg-gradient-to-r from-neon-blue to-neon-purple text-white font-bold py-4 rounded-lg hover:shadow-[0_0_20px_rgba(157,0,255,0.5)] transition-shadow duration-300 cursor-pointer"
+        >
+          {t("contact.form.submit")}
         </button>
 
         <p id="form-status" class="mt-4 text-center hidden"></p>
@@ -53,21 +129,21 @@ import { Icon } from 'astro-icon/components';
   </div>
 </section>
 
-<script>
-  const form = document.getElementById('contact-form') as HTMLFormElement;
-  const status = document.getElementById('form-status');
-  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+<script define:vars={{ translations }}>
+  const form = document.getElementById("contact-form");
+  const status = document.getElementById("form-status");
+  const submitBtn = document.getElementById("submit-btn");
 
   if (form) {
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const data = new FormData(form);
-      
+
       // Visual feedback - Loading
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Enviando...';
-        submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+        submitBtn.textContent = translations.sending;
+        submitBtn.classList.add("opacity-70", "cursor-not-allowed");
       }
 
       try {
@@ -75,38 +151,44 @@ import { Icon } from 'astro-icon/components';
           method: form.method,
           body: data,
           headers: {
-            'Accept': 'application/json'
-          }
+            Accept: "application/json",
+          },
         });
 
         if (response.ok) {
-          status.textContent = "¡Gracias! Tu mensaje ha sido enviado. Nos pondremos en contacto pronto.";
-          status.classList.remove('hidden', 'text-red-500');
-          status.classList.add('text-green-400', 'font-medium', 'animate-fade-in');
+          status.textContent = translations.success;
+          status.classList.remove("hidden", "text-red-500");
+          status.classList.add(
+            "text-green-400",
+            "font-medium",
+            "animate-fade-in",
+          );
           form.reset();
         } else {
           try {
-             const jsonData = await response.json();
-             if (Object.hasOwn(jsonData, 'errors')) {
-               status.textContent = jsonData["errors"].map((error: any) => error["message"]).join(", ");
-             } else {
-               status.textContent = "Hubo un problema al enviar el formulario.";
-             }
+            const jsonData = await response.json();
+            if (Object.hasOwn(jsonData, "errors")) {
+              status.textContent = jsonData["errors"]
+                .map((error) => error["message"])
+                .join(", ");
+            } else {
+              status.textContent = translations.error;
+            }
           } catch {
-             status.textContent = "Hubo un problema al enviar el formulario.";
+            status.textContent = translations.error;
           }
-          status.classList.remove('hidden', 'text-green-400');
-          status.classList.add('text-red-500');
+          status.classList.remove("hidden", "text-green-400");
+          status.classList.add("text-red-500");
         }
       } catch (error) {
-        status.textContent = "Hubo un error de conexión.";
-        status.classList.remove('hidden', 'text-green-400');
-        status.classList.add('text-red-500');
+        status.textContent = translations.networkError;
+        status.classList.remove("hidden", "text-green-400");
+        status.classList.add("text-red-500");
       } finally {
         if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Enviar Mensaje';
-            submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+          submitBtn.disabled = false;
+          submitBtn.textContent = translations.submit;
+          submitBtn.classList.remove("opacity-70", "cursor-not-allowed");
         }
       }
     });

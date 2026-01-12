@@ -1,33 +1,53 @@
 ---
+import { Icon } from "astro-icon/components";
+import { useTranslations } from "../utils/i18n";
+import { defaultLang, ui } from "../i18n/ui";
+
 const currentYear = new Date().getFullYear();
-import { Icon } from 'astro-icon/components';
+const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
+const t = useTranslations(lang);
 ---
 
 <footer class="bg-dark-bg border-t border-white/5 py-12 mt-20">
   <div class="container mx-auto px-6 text-center">
     <div class="mb-8">
       <a href="/" class="text-2xl font-bold tracking-tighter">
-        ZERO<span class="text-neon-blue">UNO</span> <span class="text-neon-pink">LAB</span>
+        ZERO<span class="text-neon-blue">UNO</span>
+        <span class="text-neon-pink">LAB</span>
       </a>
       <p class="text-gray-400 mt-4 max-w-md mx-auto">
-        Digitalizando empresas con soluciones a medida. Desarrollo web, apps y marketing digital.
+        {t("footer.description")}
       </p>
     </div>
-    
+
     <div class="flex justify-center gap-8 mb-12">
-      <a href="https://www.instagram.com/zerounolab/" target="_blank" aria-label="Instagram" class="text-gray-400 hover:text-neon-pink hover:scale-110 transition-all duration-300">
+      <a
+        href="https://www.instagram.com/zerounolab/"
+        target="_blank"
+        aria-label="Instagram"
+        class="text-gray-400 hover:text-neon-pink hover:scale-110 transition-all duration-300"
+      >
         <Icon name="simple-icons:instagram" class="w-8 h-8" />
       </a>
-      <a href="https://www.linkedin.com/company/zerounolab/" target="_blank" aria-label="LinkedIn" class="text-gray-400 hover:text-neon-blue hover:scale-110 transition-all duration-300">
+      <a
+        href="https://www.linkedin.com/company/zerounolab/"
+        target="_blank"
+        aria-label="LinkedIn"
+        class="text-gray-400 hover:text-neon-blue hover:scale-110 transition-all duration-300"
+      >
         <Icon name="simple-icons:linkedin" class="w-8 h-8" />
       </a>
-      <a href="mailto:info@zerounolab.dev" aria-label="Email" class="text-gray-400 hover:text-neon-purple hover:scale-110 transition-all duration-300">
+      <a
+        href="mailto:info@zerounolab.dev"
+        aria-label="Email"
+        class="text-gray-400 hover:text-neon-purple hover:scale-110 transition-all duration-300"
+      >
         <Icon name="lucide:mail" class="w-8 h-8" />
       </a>
     </div>
 
     <div class="border-t border-white/10 pt-8 text-gray-500 text-sm">
-      &copy; {currentYear} ZeroUno Lab. Todos los derechos reservados.
+      &copy; {currentYear} ZeroUno Lab. {t("footer.rights")}
     </div>
   </div>
 </footer>
