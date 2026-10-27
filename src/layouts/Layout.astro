@@ -9,6 +9,9 @@ import "@fontsource/outfit/700.css";
 import "@fontsource/outfit/900.css";
 import "@fontsource/inter/900.css";
 import "../styles/global.css";
+import interBlack from "@fontsource/inter/files/inter-latin-900-normal.woff2?url";
+import outfitLight from "@fontsource/outfit/files/outfit-latin-300-normal.woff2?url";
+import outfitRegular from "@fontsource/outfit/files/outfit-latin-400-normal.woff2?url";
 
 const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
 const t = useTranslations(lang);
@@ -42,6 +45,10 @@ const t = useTranslations(lang);
 			href="/favicon-16x16.png"
 		/>
 		<link rel="manifest" href="/site.webmanifest" />
+		<!-- Fonts used above the fold, so the hero doesn't wait on the CSS to discover them -->
+		<link rel="preload" href={interBlack} as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href={outfitRegular} as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href={outfitLight} as="font" type="font/woff2" crossorigin />
 		<meta name="generator" content={Astro.generator} />
 		<title>{t("meta.title")}</title>
 		<script is:inline>

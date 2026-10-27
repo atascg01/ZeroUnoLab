@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = window.matchMedia("(pointer: fine)").matches;
+const isMobile = window.matchMedia("(max-width: 768px)").matches;
 const $ = <T extends Element = HTMLElement>(s: string, root: ParentNode = document) =>
   root.querySelector<T>(s);
 const $$ = <T extends Element = HTMLElement>(s: string, root: ParentNode = document) =>
@@ -106,7 +107,12 @@ function scramble(el: HTMLElement, duration = 1.2, delay = 0) {
 
 let lenis: Lenis | null = null;
 
-function initLenis(scene: ParticleScene | null) {
+// The particle scene loads after the hero is visible, so everything talks to it
+// through these and it catches up with the current section when it arrives.
+let scene: ParticleScene | null = null;
+let sceneIndex = 0;
+
+function initLenis() {
   if (reduced) return;
   lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
   lenis.stop();
@@ -302,36 +308,39 @@ function runPreloader(): Promise<void> {
   const counter = $("[data-loader-count]", loader)!;
   const bar = $("[data-loader-bar]", loader)!;
   const bits = $("[data-loader-bits]", loader)!;
-  const duration = visited ? 0.6 : 2;
+  const duration = visited ? 0.3 : isMobile ? 0.7 : 1.1;
+  const obj = { v: 0 };
+  const render = () => {
+    counter.textContent = String(Math.round(obj.v)).padStart(3, "0");
+    bar.style.transform = `scaleX(${obj.v / 100})`;
+    bits.textContent = Array.from({ length: 24 }, () => (Math.random() > 0.5 ? "1" : "0")).join("");
+  };
+  // Count to 90 right away, then finish once the fonts are in (capped so a slow
+  // font never holds the page hostage)
+  const counted = new Promise<void>((done) =>
+    gsap.to(obj, { v: 90, duration, ease: "power2.out", onUpdate: render, onComplete: done }),
+  );
+  const fonts = Promise.race([
+    document.fonts?.ready ?? Promise.resolve(),
+    new Promise((r) => setTimeout(r, 2500)),
+  ]);
 
-  return new Promise((resolve) => {
-    const obj = { v: 0 };
-    const tl = gsap.timeline({
-      onComplete: () => {
-        loader.remove();
-      },
-    });
-    tl.to(obj, {
-      v: 100,
-      duration,
-      ease: "power2.inOut",
-      onUpdate: () => {
-        const v = Math.round(obj.v);
-        counter.textContent = String(v).padStart(3, "0");
-        bar.style.transform = `scaleX(${obj.v / 100})`;
-        bits.textContent = Array.from({ length: 24 }, () => (Math.random() > 0.5 ? "1" : "0")).join("");
-      },
-    })
-      .to("[data-loader-inner]", { yPercent: -120, opacity: 0, duration: 0.5, ease: "power3.in" })
-      .add(() => resolve(), "-=0.1")
-      .to("[data-loader-panel='top']", { yPercent: -100, duration: 0.9, ease: "power4.inOut" }, "<")
-      .to("[data-loader-panel='bottom']", { yPercent: 100, duration: 0.9, ease: "power4.inOut" }, "<");
-  });
+  return Promise.all([counted, fonts]).then(
+    () =>
+      new Promise<void>((resolve) => {
+        gsap
+          .timeline({ onComplete: () => loader.remove() })
+          .to(obj, { v: 100, duration: 0.25, ease: "power1.out", onUpdate: render })
+          .to("[data-loader-inner]", { yPercent: -120, opacity: 0, duration: 0.45, ease: "power3.in" })
+          .add(() => resolve(), "-=0.1")
+          .to("[data-loader-panel='top']", { yPercent: -100, duration: 0.8, ease: "power4.inOut" }, "<")
+          .to("[data-loader-panel='bottom']", { yPercent: 100, duration: 0.8, ease: "power4.inOut" }, "<");
+      }),
+  );
 }
 
-function heroIntro(scene: ParticleScene | null) {
+function heroIntro() {
   document.documentElement.classList.remove("is-loading");
-  scene?.intro(reduced ? 0.01 : 2.8);
   lenis?.start();
   if (reduced) return;
 
@@ -357,7 +366,7 @@ function heroIntro(scene: ParticleScene | null) {
 
 /* ---------- Scroll animations ---------- */
 
-function initScrollAnimations(scene: ParticleScene | null) {
+function initScrollAnimations() {
   // Particle morphs per section
   $$("[data-scene-state]").forEach((section) => {
     const i = Number(section.dataset.sceneState);
@@ -365,7 +374,11 @@ function initScrollAnimations(scene: ParticleScene | null) {
       trigger: section,
       start: "top 55%",
       end: "bottom 55%",
-      onToggle: (self) => self.isActive && scene?.goTo(i),
+      onToggle: (self) => {
+        if (!self.isActive) return;
+        sceneIndex = i;
+        scene?.goTo(i);
+      },
     });
   });
 
@@ -440,10 +453,11 @@ function initScrollAnimations(scene: ParticleScene | null) {
     const words = splitWords(manifesto);
     gsap.fromTo(
       words,
-      { opacity: 0.12, filter: "blur(6px)" },
+      // Animated blur is expensive on phones, opacity alone reads fine there
+      isMobile ? { opacity: 0.12 } : { opacity: 0.12, filter: "blur(6px)" },
       {
         opacity: 1,
-        filter: "blur(0px)",
+        ...(isMobile ? {} : { filter: "blur(0px)" }),
         stagger: 0.1,
         ease: "none",
         scrollTrigger: { trigger: manifesto, start: "top 80%", end: "bottom 45%", scrub: true },
@@ -608,19 +622,28 @@ function initTyping() {
 
 /* ---------- Boot ---------- */
 
+function startScene(canvas: HTMLCanvasElement, createScene: typeof import("./scene").createScene) {
+  scene = createScene(canvas, sceneStates, sceneIndex);
+  if (!scene) {
+    canvas.remove();
+    return;
+  }
+  scene.intro(reduced ? 0.01 : 2.8);
+}
+
+const whenIdle = (fn: () => void) =>
+  "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 1500 }) : setTimeout(fn, 200);
+
 async function boot() {
   const canvas = $<HTMLCanvasElement>("#webgl");
-  const fontsReady = document.fonts?.ready ?? Promise.resolve();
   const preloader = runPreloader();
+  // Download Three.js in parallel, but never make the hero wait for it
+  let sceneModule: typeof import("./scene") | null = null;
+  const sceneImport = canvas
+    ? import("./scene").then((m) => (sceneModule = m)).catch(() => null)
+    : null;
 
-  let scene: ParticleScene | null = null;
-  if (canvas) {
-    const [{ createScene }] = await Promise.all([import("./scene"), fontsReady]);
-    scene = createScene(canvas, sceneStates);
-    if (!scene) canvas.remove();
-  }
-
-  initLenis(scene);
+  initLenis();
   initAnchors();
   initCursor();
   initMagnetic();
@@ -633,11 +656,21 @@ async function boot() {
     gsap.set(["[data-header]", "[data-hero-eyebrow]", "[data-hero-cta]", "[data-hero-meta]"], { opacity: 0 });
     gsap.set("[data-hero-sub]", { opacity: 0 });
   }
-  initScrollAnimations(scene);
+  initScrollAnimations();
 
   await preloader;
-  heroIntro(scene);
+  // Already downloaded: build it now while the curtain still hides the jank
+  const loaded = sceneModule as typeof import("./scene") | null;
+  if (canvas && loaded) startScene(canvas, loaded.createScene);
+  heroIntro();
   requestAnimationFrame(() => ScrollTrigger.refresh());
+
+  if (canvas && !scene && sceneImport) {
+    sceneImport.then((m) => {
+      if (m) whenIdle(() => startScene(canvas, m.createScene));
+      else canvas.remove();
+    });
+  }
 }
 
 boot();

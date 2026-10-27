@@ -133,11 +133,13 @@ void main(){
   float n = snoise(pos * 0.55 + uTime * 0.12);
   float amp = 0.1 + transition * 0.9 + uVelocity * 0.6;
   pos += normalize(pos + vec3(0.0001)) * n * amp;
+#if LITE == 0
   pos += vec3(
     snoise(pos * 0.8 + vec3(uTime * 0.2)),
     snoise(pos * 0.8 + vec3(31.0 + uTime * 0.2)),
     snoise(pos * 0.8 + vec3(77.0 + uTime * 0.2))
   ) * (transition * 0.6 + uVelocity * 0.25);
+#endif
 
   vec4 mv = modelViewMatrix * vec4(pos, 1.0);
   vec4 clip = projectionMatrix * mv;
@@ -300,6 +302,7 @@ function buildShapes(count: number) {
 export function createScene(
   canvas: HTMLCanvasElement,
   states: (isMobile: boolean) => StateConfig[],
+  initialIndex = 0,
 ): ParticleScene | null {
   let renderer: WebGLRenderer;
   try {
@@ -315,7 +318,9 @@ export function createScene(
 
   let isMobile = window.matchMedia("(max-width: 768px)").matches;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const count = isMobile ? 7000 : 16000;
+  // Phones get fewer particles, a lower pixel ratio and a cheaper shader
+  const count = isMobile ? 4500 : 16000;
+  const maxDpr = () => (isMobile ? 1.5 : 2);
 
   const scene = new Scene();
   const camera = new PerspectiveCamera(45, 1, 0.1, 100);
@@ -344,7 +349,7 @@ export function createScene(
     uMorph: { value: 0 },
     uIntro: { value: 0 },
     uSize: { value: isMobile ? 2.6 : 2.2 },
-    uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+    uPixelRatio: { value: Math.min(window.devicePixelRatio, maxDpr()) },
     uAspect: { value: 1 },
     uVelocity: { value: 0 },
     uMouse: { value: new Vector2(9, 9) },
@@ -357,6 +362,7 @@ export function createScene(
     vertexShader,
     fragmentShader,
     uniforms,
+    defines: { LITE: isMobile ? 1 : 0 },
     transparent: true,
     depthWrite: false,
     blending: AdditiveBlending,
@@ -368,7 +374,8 @@ export function createScene(
   scene.add(group);
 
   let configs = states(isMobile);
-  const target = { morph: 0, x: configs[0].x, opacity: configs[0].opacity };
+  const start = Math.max(0, Math.min(SHAPES - 1, initialIndex));
+  const target = { morph: start, x: configs[start].x, opacity: configs[start].opacity };
   const current = { ...target };
   group.position.x = current.x;
   const mouse = { x: 9, y: 9, tx: 9, ty: 9, active: 0 };
@@ -380,7 +387,8 @@ export function createScene(
     const h = window.innerHeight;
     isMobile = window.matchMedia("(max-width: 768px)").matches;
     configs = states(isMobile);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxDpr()));
+    uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, maxDpr());
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();

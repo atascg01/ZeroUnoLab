@@ -250,6 +250,18 @@ html.js.is-loading body {
   opacity: 0;
 }
 
+/* Phones: drop the costliest compositing work (animated full-screen grain and
+   backdrop blurs on every card); the header keeps its blur. */
+@media (max-width: 768px) {
+  .grain {
+    animation: none;
+  }
+  main [class*="backdrop-blur"] {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
