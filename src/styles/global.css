@@ -155,9 +155,12 @@ html.js.is-loading body {
   animation: var(--animate-gradient);
 }
 
+/* Stroke is painted under the fill so overlapping glyph contours (e.g. the "e"
+   crossbar in Inter Black) get covered instead of drawn as inner lines. */
 .text-outline {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.35);
+  color: var(--outline-fill, var(--color-dark-bg));
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.35);
+  paint-order: stroke fill;
 }
 
 .text-glow-blue {

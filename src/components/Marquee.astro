@@ -28,10 +28,18 @@ const rowB = [
 ---
 
 <section class="relative py-16 md:py-24 overflow-hidden" aria-label={t("marquee.label")}>
-  <div
-    class="absolute inset-0 bg-gradient-to-r from-dark-bg via-transparent to-dark-bg z-10 pointer-events-none"
-  >
+  <div class="container mx-auto px-6 mb-12 md:mb-16 relative z-20">
+    <div data-reveal class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-12">
+      <div>
+        <p class="font-mono text-xs text-gray-500 uppercase tracking-[0.3em] mb-3">{t("marquee.label")}</p>
+        <p class="text-2xl md:text-3xl font-bold tracking-tight">{t("marquee.title")}</p>
+      </div>
+      <p class="text-gray-400 text-lg max-w-md md:text-right">
+        {t("marquee.note")}
+      </p>
+    </div>
   </div>
+  <div class="[mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
   <div class="-rotate-2 scale-105 flex flex-col gap-4">
     <div data-marquee class="bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink py-4 shadow-[0_0_60px_rgba(157,0,255,0.4)]">
       <div class="flex w-max animate-marquee">
@@ -45,6 +53,11 @@ const rowB = [
                   <span class="text-white/70 ml-6">✦</span>
                 </span>
               ))}
+              <span class="flex items-center gap-4 px-8 text-2xl md:text-4xl font-black uppercase tracking-tight text-white">
+                <Icon name="lucide:plus" class="w-7 h-7 md:w-9 md:h-9" />
+                {t("marquee.more")}
+                <span class="text-white/70 ml-6">✦</span>
+              </span>
             </div>
           ))
         }
@@ -61,10 +74,15 @@ const rowB = [
                   {item.name}
                 </span>
               ))}
+              <span class="flex items-center gap-4 px-8 text-2xl md:text-4xl font-black uppercase tracking-tight text-gradient">
+                <Icon name="lucide:infinity" class="w-7 h-7 md:w-9 md:h-9 text-neon-pink" />
+                {t("marquee.more")}
+              </span>
             </div>
           ))
         }
       </div>
     </div>
+  </div>
   </div>
 </section>

@@ -27,6 +27,9 @@ export const ui = {
         'hero.scroll': 'Scroll',
 
         'marquee.label': 'Stack tecnológico',
+        'marquee.title': 'Nuestras herramientas favoritas.',
+        'marquee.note': 'No nos casamos con ninguna: elegimos la tecnología que mejor encaja con tu proyecto, o trabajamos con la que ya usas.',
+        'marquee.more': 'Y lo que necesites',
 
         'services.eyebrow': '01 — Qué hacemos',
         'services.title': 'Nuestros',
@@ -102,6 +105,9 @@ export const ui = {
         'hero.scroll': 'Scroll',
 
         'marquee.label': 'Tech stack',
+        'marquee.title': 'Our favourite tools.',
+        'marquee.note': 'We\'re not tied to any of them: we pick the technology that best fits your project, or work with the one you already use.',
+        'marquee.more': 'And whatever you need',
 
         'services.eyebrow': '01 — What we do',
         'services.title': 'Our',
