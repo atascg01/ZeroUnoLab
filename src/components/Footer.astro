@@ -8,46 +8,45 @@ const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
 const t = useTranslations(lang);
 ---
 
-<footer class="bg-dark-bg border-t border-white/5 py-12 mt-20">
-  <div class="container mx-auto px-6 text-center">
-    <div class="mb-8">
-      <a href="/" class="text-2xl font-bold tracking-tighter">
-        ZERO<span class="text-neon-blue">UNO</span>
-        <span class="text-neon-pink">LAB</span>
-      </a>
-      <p class="text-gray-400 mt-4 max-w-md mx-auto">
+<footer class="relative border-t border-white/5 pt-20 pb-8 mt-20 overflow-hidden bg-gradient-to-b from-transparent to-dark-bg">
+  <div class="container mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between gap-10 mb-16">
+      <p class="text-gray-400 max-w-md text-lg">
         {t("footer.description")}
       </p>
+
+      <div class="flex items-start gap-6">
+        <a href="https://www.instagram.com/zerounolab/" target="_blank" rel="noopener" aria-label="Instagram" class="text-gray-400 hover:text-neon-pink hover:-translate-y-1 transition-all duration-300">
+          <Icon name="simple-icons:instagram" class="w-7 h-7" />
+        </a>
+        <a href="https://www.linkedin.com/company/zerounolab/" target="_blank" rel="noopener" aria-label="LinkedIn" class="text-gray-400 hover:text-neon-blue hover:-translate-y-1 transition-all duration-300">
+          <Icon name="simple-icons:linkedin" class="w-7 h-7" />
+        </a>
+        <a href="mailto:info@zerounolab.dev" aria-label="Email" class="text-gray-400 hover:text-neon-purple hover:-translate-y-1 transition-all duration-300">
+          <Icon name="lucide:mail" class="w-7 h-7" />
+        </a>
+        <a
+          href="#"
+          data-magnetic="0.4"
+          aria-label={t("footer.top")}
+          class="ml-4 w-12 h-12 -mt-2 grid place-items-center rounded-full border border-white/15 hover:bg-white hover:text-dark-bg transition-colors duration-300"
+        >
+          <Icon name="lucide:arrow-up" class="w-5 h-5" data-magnetic-inner />
+        </a>
+      </div>
     </div>
 
-    <div class="flex justify-center gap-8 mb-12">
-      <a
-        href="https://www.instagram.com/zerounolab/"
-        target="_blank"
-        aria-label="Instagram"
-        class="text-gray-400 hover:text-neon-pink hover:scale-110 transition-all duration-300"
-      >
-        <Icon name="simple-icons:instagram" class="w-8 h-8" />
-      </a>
-      <a
-        href="https://www.linkedin.com/company/zerounolab/"
-        target="_blank"
-        aria-label="LinkedIn"
-        class="text-gray-400 hover:text-neon-blue hover:scale-110 transition-all duration-300"
-      >
-        <Icon name="simple-icons:linkedin" class="w-8 h-8" />
-      </a>
-      <a
-        href="mailto:info@zerounolab.dev"
-        aria-label="Email"
-        class="text-gray-400 hover:text-neon-purple hover:scale-110 transition-all duration-300"
-      >
-        <Icon name="lucide:mail" class="w-8 h-8" />
-      </a>
+    <div
+      data-wordmark
+      class="font-display font-black tracking-[-0.06em] leading-[0.8] text-[clamp(3rem,13vw,12rem)] text-center select-none overflow-hidden whitespace-nowrap py-2"
+      aria-hidden="true"
+    >
+      ZERO<span class="text-neon-blue">UNO</span><span class="text-neon-pink">LAB</span>
     </div>
 
-    <div class="border-t border-white/10 pt-8 text-gray-500 text-sm">
-      &copy; {currentYear} ZeroUno Lab. {t("footer.rights")}
+    <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/10 pt-8 text-gray-500 text-sm">
+      <span>&copy; {currentYear} ZeroUno Lab. {t("footer.rights")}</span>
+      <span class="font-mono text-xs">01011010 01010101 01001100</span>
     </div>
   </div>
 </footer>

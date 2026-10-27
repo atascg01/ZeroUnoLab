@@ -1,0 +1,70 @@
+---
+import { Icon } from "astro-icon/components";
+import { useTranslations } from "../utils/i18n";
+import { defaultLang, ui } from "../i18n/ui";
+
+const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
+const t = useTranslations(lang);
+
+const rowA = [
+  { icon: "astro", name: "Astro" },
+  { icon: "react", name: "React" },
+  { icon: "nextdotjs", name: "Next.js" },
+  { icon: "typescript", name: "TypeScript" },
+  { icon: "tailwindcss", name: "Tailwind" },
+  { icon: "nodedotjs", name: "Node.js" },
+  { icon: "vercel", name: "Vercel" },
+];
+const rowB = [
+  { icon: "swift", name: "Swift" },
+  { icon: "kotlin", name: "Kotlin" },
+  { icon: "flutter", name: "Flutter" },
+  { icon: "firebase", name: "Firebase" },
+  { icon: "supabase", name: "Supabase" },
+  { icon: "figma", name: "Figma" },
+  { icon: "apple", name: "iOS" },
+  { icon: "android", name: "Android" },
+];
+---
+
+<section class="relative py-16 md:py-24 overflow-hidden" aria-label={t("marquee.label")}>
+  <div
+    class="absolute inset-0 bg-gradient-to-r from-dark-bg via-transparent to-dark-bg z-10 pointer-events-none"
+  >
+  </div>
+  <div class="-rotate-2 scale-105 flex flex-col gap-4">
+    <div data-marquee class="bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink py-4 shadow-[0_0_60px_rgba(157,0,255,0.4)]">
+      <div class="flex w-max animate-marquee">
+        {
+          [0, 1].map(() => (
+            <div class="flex shrink-0" aria-hidden="true">
+              {rowA.map((item) => (
+                <span class="flex items-center gap-4 px-8 text-2xl md:text-4xl font-black uppercase tracking-tight text-dark-bg">
+                  <Icon name={`simple-icons:${item.icon}`} class="w-7 h-7 md:w-9 md:h-9" />
+                  {item.name}
+                  <span class="text-white/70 ml-6">✦</span>
+                </span>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <div data-marquee class="border-y border-white/10 bg-dark-bg/60 backdrop-blur-sm py-4 rotate-3">
+      <div class="flex w-max animate-marquee [animation-direction:reverse] [animation-duration:50s]">
+        {
+          [0, 1].map(() => (
+            <div class="flex shrink-0" aria-hidden="true">
+              {rowB.map((item) => (
+                <span class="flex items-center gap-4 px-8 text-2xl md:text-4xl font-black uppercase tracking-tight text-outline hover:text-white transition-colors">
+                  <Icon name={`simple-icons:${item.icon}`} class="w-7 h-7 md:w-9 md:h-9 text-white/40" />
+                  {item.name}
+                </span>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

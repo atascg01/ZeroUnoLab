@@ -1,0 +1,82 @@
+---
+import { Icon } from "astro-icon/components";
+import { useTranslations } from "../utils/i18n";
+import { defaultLang, ui } from "../i18n/ui";
+
+const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
+const t = useTranslations(lang);
+
+const steps = [
+  { n: "00", icon: "lucide:search", title: t("about.step1.title"), desc: t("about.step1.desc"), color: "#00C2FF" },
+  { n: "01", icon: "lucide:pen-tool", title: t("about.step2.title"), desc: t("about.step2.desc"), color: "#9D00FF" },
+  { n: "10", icon: "lucide:code-xml", title: t("about.step3.title"), desc: t("about.step3.desc"), color: "#FF00D4" },
+  { n: "11", icon: "lucide:rocket", title: t("about.step4.title"), desc: t("about.step4.desc"), color: "#00C2FF" },
+];
+---
+
+<section id="about" data-scene-state="3" data-hscroll class="relative lg:h-screen lg:overflow-hidden py-24 lg:py-0">
+  <div
+    data-hscroll-track
+    class="flex flex-col lg:flex-row lg:items-center lg:h-full gap-8 lg:gap-10 px-6 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pr-24 w-full lg:w-max"
+  >
+    <!-- Intro panel -->
+    <div class="lg:w-[38vw] shrink-0 lg:pr-10">
+      <p data-scramble class="font-mono text-sm text-neon-purple mb-4 tracking-widest uppercase">
+        {t("about.eyebrow")}
+      </p>
+      <h2
+        data-split-title
+        class="font-display font-black tracking-[-0.04em] leading-[0.95] text-[clamp(2.8rem,8vw,7rem)] [perspective:600px]"
+      >
+        {t("about.title")} <span class="text-gradient">{t("about.titleHighlight")}</span>
+      </h2>
+      <p data-reveal class="mt-6 text-gray-400 text-lg max-w-md">{t("about.subtitle")}</p>
+      <div class="hidden lg:flex items-center gap-3 mt-10 text-gray-500 font-mono text-xs uppercase tracking-widest">
+        <Icon name="lucide:arrow-down" class="w-4 h-4 animate-bounce" />
+        Scroll
+      </div>
+    </div>
+
+    {
+      steps.map((s, i) => (
+        <article
+          data-step
+          data-spotlight
+          class="spotlight relative shrink-0 lg:w-[30rem] lg:h-[62vh] rounded-[2rem] bg-dark-card/70 backdrop-blur-md p-8 md:p-10 flex flex-col justify-between overflow-hidden"
+          style={`--spot: ${s.color}`}
+        >
+          <span
+            class="pointer-events-none absolute -right-6 -bottom-12 font-display font-black text-[14rem] leading-none text-outline opacity-30 select-none"
+            aria-hidden="true"
+          >
+            {s.n}
+          </span>
+          <div class="relative z-[1] flex items-center justify-between" data-step-anim>
+            <div
+              class="w-16 h-16 rounded-2xl grid place-items-center border"
+              style={`color:${s.color}; border-color:${s.color}40; background:${s.color}15`}
+            >
+              <Icon name={s.icon} class="w-8 h-8" />
+            </div>
+            <span class="font-mono text-sm text-gray-500">
+              {String(i + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}
+            </span>
+          </div>
+          <div class="relative z-[1] mt-16 lg:mt-0">
+            <h3 data-step-anim class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+              {s.title}
+            </h3>
+            <p data-step-anim class="text-gray-400 text-lg max-w-xs">
+              {s.desc}
+            </p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <!-- Progress -->
+  <div class="hidden lg:block absolute bottom-10 left-1/2 -translate-x-1/2 w-64 h-px bg-white/10">
+    <div data-hscroll-progress class="h-full origin-left bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink"></div>
+  </div>
+</section>

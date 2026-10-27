@@ -2,18 +2,53 @@
 
 @theme {
   --font-sans: 'Outfit', sans-serif;
-  
+  --font-display: 'Inter', 'Outfit', sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas, monospace;
+
   --color-neon-blue: #00C2FF;
   --color-neon-purple: #9D00FF;
   --color-neon-pink: #FF00D4;
   --color-dark-bg: #050510;
-  
+  --color-dark-card: #0b0b1d;
+
   --shadow-neon-blue: 0 0 10px #00C2FF, 0 0 20px #00C2FF;
   --shadow-neon-pink: 0 0 10px #FF00D4, 0 0 20px #FF00D4;
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-spin-slow: spin 12s linear infinite;
+  --animate-gradient: gradient-pan 6s ease infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-blink: blink 1s step-end infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes gradient-pan {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
 }
 
 :root {
   color-scheme: dark;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
@@ -23,11 +58,207 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Utilities if needed */
+::selection {
+  background: var(--color-neon-pink);
+  color: white;
+}
+
+/* Hide content until the preloader hands over, avoids a flash of unanimated text */
+html.js.is-loading body {
+  overflow: hidden;
+}
+
+/* Film grain overlay */
+.grain {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+}
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  30% { transform: translate(3%, -15%); }
+  50% { transform: translate(12%, 9%); }
+  70% { transform: translate(9%, 4%); }
+  90% { transform: translate(-1%, 7%); }
+}
+
+/* Custom cursor (only on fine pointers) */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 100;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+@media (pointer: fine) {
+  .cursor-dot,
+  .cursor-ring {
+    display: block;
+  }
+}
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: white;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-dark-bg);
+}
+@media (pointer: fine) {
+  .cursor-ring {
+    display: flex;
+  }
+}
+.cursor-ring.is-hover {
+  width: 72px;
+  height: 72px;
+  background: rgba(0, 194, 255, 0.15);
+  border-color: var(--color-neon-blue);
+}
+.cursor-ring.is-label {
+  width: 88px;
+  height: 88px;
+  background: white;
+  border-color: white;
+}
+
+/* Animated gradient text */
+.text-gradient {
+  background: linear-gradient(90deg, var(--color-neon-blue), var(--color-neon-purple), var(--color-neon-pink), var(--color-neon-blue));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: var(--animate-gradient);
+}
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.35);
+}
+
 .text-glow-blue {
   text-shadow: 0 0 10px var(--color-neon-blue), 0 0 20px var(--color-neon-blue);
 }
 
 .text-glow-pink {
   text-shadow: 0 0 10px var(--color-neon-pink), 0 0 20px var(--color-neon-pink);
+}
+
+/* Split text helpers */
+.split-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.split-char {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Spotlight card: border + glow follow the cursor via --mx / --my */
+.spotlight {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(400px circle at var(--mx) var(--my), var(--spot, var(--color-neon-blue)), transparent 40%), rgba(255, 255, 255, 0.08);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(600px circle at var(--mx) var(--my), color-mix(in srgb, var(--spot, var(--color-neon-blue)) 14%, transparent), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  z-index: 0;
+}
+.spotlight:hover::after {
+  opacity: 1;
+}
+
+/* Rotating conic border */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.conic-border {
+  position: relative;
+  isolation: isolate;
+}
+.conic-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--angle), transparent 0deg, var(--color-neon-blue) 60deg, var(--color-neon-purple) 120deg, var(--color-neon-pink) 180deg, transparent 240deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotate-angle 5s linear infinite;
+  z-index: -1;
+}
+@keyframes rotate-angle {
+  to { --angle: 360deg; }
+}
+
+/* Reveal default state: JS animates them in. Without JS they stay visible. */
+.js [data-reveal] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+  }
+  .grain {
+    display: none;
+  }
 }

@@ -1,0 +1,21 @@
+---
+import { useTranslations } from "../utils/i18n";
+import { defaultLang, ui } from "../i18n/ui";
+
+const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
+const t = useTranslations(lang);
+---
+
+<section data-scene-state="2" class="relative py-32 md:py-48">
+  <div class="container mx-auto px-6">
+    <div class="max-w-5xl mx-auto">
+      <span class="block font-mono text-sm text-neon-pink mb-8 tracking-widest">&lt;manifesto /&gt;</span>
+      <p
+        data-manifesto
+        class="font-display font-black tracking-[-0.03em] leading-[1.05] text-[clamp(2rem,5.5vw,4.75rem)]"
+      >
+        {t("manifesto.text")}
+      </p>
+    </div>
+  </div>
+</section>

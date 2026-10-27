@@ -5,92 +5,226 @@ import { defaultLang, ui } from "../i18n/ui";
 
 const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
 const t = useTranslations(lang);
+
+const bars = [35, 52, 44, 68, 60, 82, 74, 96];
 ---
 
-<section id="services" class="py-24 bg-dark-bg relative">
+<section id="services" data-scene-state="1" class="py-24 md:py-32 relative">
   <div class="container mx-auto px-6">
-    <h2 class="text-4xl md:text-6xl font-bold mb-16 text-center">
-      {t("services.title")}
-      <span class="text-neon-blue">{t("services.titleHighlight")}</span>
-    </h2>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Web Development Card -->
-      <div
-        class="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-neon-blue/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden"
-      >
-        <div
-          class="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
-        </div>
-        <h3 class="text-2xl font-bold mb-4 relative z-10">
-          {t("services.web.title")}
-        </h3>
-        <p class="text-gray-400 relative z-10">
-          {t("services.web.desc")}
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+      <div>
+        <p data-scramble class="font-mono text-sm text-neon-blue mb-4 tracking-widest uppercase">
+          {t("services.eyebrow")}
         </p>
+        <h2
+          data-split-title
+          class="font-display font-black tracking-[-0.04em] leading-[0.95] text-[clamp(2.8rem,8vw,7rem)] [perspective:600px]"
+        >
+          {t("services.title")} <span class="text-neon-blue">{t("services.titleHighlight")}</span>
+        </h2>
       </div>
+      <p data-reveal class="text-gray-400 max-w-sm text-lg">
+        {t("hero.subtitle")}
+      </p>
+    </div>
 
-      <!-- Mobile Apps Card (Formatted as a larger item if grid allows, or standard) -->
-      <div
-        class="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-neon-pink/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden md:col-span-2"
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-5 md:gap-6">
+      <!-- Web -->
+      <article
+        data-reveal="clip"
+        data-spotlight
+        data-tilt="5"
+        data-cursor="Web"
+        class="spotlight group rounded-3xl bg-dark-card/70 backdrop-blur-md p-8 md:p-10 overflow-hidden md:col-span-2 lg:col-span-4 min-h-[420px] flex flex-col"
+        style="--spot: #00C2FF"
       >
-        <div
-          class="absolute inset-0 bg-gradient-to-br from-neon-pink/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
-        </div>
-        <h3 class="text-2xl font-bold mb-4 relative z-10">
-          {t("services.apps.title")}
-        </h3>
-        <p class="text-gray-400 relative z-10 max-w-xl">
-          {t("services.apps.desc")}
-        </p>
-        <!-- Tech Icons (Replacing confusing slider) -->
-        <div class="mt-8 flex gap-4 relative z-10">
-          <div
-            class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition-colors duration-300"
-          >
-            <Icon name="simple-icons:apple" class="w-6 h-6 text-white" />
+        <div class="relative z-[1] flex items-start justify-between mb-8">
+          <div class="w-14 h-14 rounded-2xl grid place-items-center bg-neon-blue/10 text-neon-blue border border-neon-blue/20">
+            <Icon name="lucide:code-xml" class="w-7 h-7" />
           </div>
-          <div
-            class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition-colors duration-300"
-          >
-            <Icon name="simple-icons:android" class="w-6 h-6 text-white" />
+          <span class="font-mono text-sm text-gray-500">/00</span>
+        </div>
+
+        <div class="relative z-[1] grid md:grid-cols-2 gap-8 items-end flex-1">
+          <div>
+            <h3 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight">{t("services.web.title")}</h3>
+            <p class="text-gray-400 text-lg">{t("services.web.desc")}</p>
+          </div>
+
+          <!-- Browser mock with typing code -->
+          <div class="rounded-2xl border border-white/10 bg-dark-bg/80 overflow-hidden shadow-2xl transition-transform duration-700 group-hover:-translate-y-2 group-hover:rotate-[-1deg]">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/5">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#28c840]"></span>
+              <span class="ml-3 flex-1 h-5 rounded-md bg-white/5 text-[10px] text-gray-500 flex items-center px-2 font-mono">zerounolab.dev</span>
+            </div>
+            <div data-typing class="p-4 font-mono text-[12px] leading-6 min-h-[156px]">
+              <div><span class="text-neon-pink">const</span> <span data-type-line class="text-white">site = await build({</span></div>
+              <div class="pl-4 text-neon-blue" data-type-line>design: "unique",</div>
+              <div class="pl-4 text-neon-blue" data-type-line>speed: "instant",</div>
+              <div class="pl-4 text-neon-blue" data-type-line>seo: true,</div>
+              <div class="text-white"><span data-type-line>});</span><span class="inline-block w-2 h-4 bg-neon-blue align-middle animate-blink ml-0.5"></span></div>
+            </div>
+            <div class="flex items-center gap-4 px-4 py-3 border-t border-white/5">
+              <div class="relative w-11 h-11">
+                <svg viewBox="0 0 36 36" class="w-full h-full -rotate-90">
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"></circle>
+                  <path data-draw d="M18 2.1 a 15.9 15.9 0 0 1 0 31.8 a 15.9 15.9 0 0 1 0 -31.8" fill="none" stroke="#28c840" stroke-width="3" stroke-linecap="round"></path>
+                </svg>
+                <span class="absolute inset-0 grid place-items-center text-[11px] font-bold text-[#28c840]" data-counter="100">100</span>
+              </div>
+              <div class="text-xs text-gray-400">
+                <div class="text-white font-semibold">Performance</div>
+                Core Web Vitals
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </article>
 
-      <!-- Social Media -->
-      <div
-        class="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-neon-purple/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden md:col-span-2 lg:col-span-1"
+      <!-- Apps -->
+      <article
+        data-reveal="clip"
+        data-spotlight
+        data-tilt="6"
+        data-cursor="Apps"
+        class="spotlight group rounded-3xl bg-dark-card/70 backdrop-blur-md p-8 md:p-10 overflow-hidden lg:col-span-2 lg:row-span-2 flex flex-col"
+        style="--spot: #FF00D4"
       >
-        <div
-          class="absolute inset-0 bg-gradient-to-br from-neon-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
+        <div class="relative z-[1] flex items-start justify-between mb-8">
+          <div class="w-14 h-14 rounded-2xl grid place-items-center bg-neon-pink/10 text-neon-pink border border-neon-pink/20">
+            <Icon name="lucide:smartphone" class="w-7 h-7" />
+          </div>
+          <span class="font-mono text-sm text-gray-500">/01</span>
         </div>
-        <h3 class="text-2xl font-bold mb-4 relative z-10">
-          {t("services.social.title")}
-        </h3>
-        <p class="text-gray-400 relative z-10">
-          {t("services.social.desc")}
-        </p>
-      </div>
+        <h3 class="relative z-[1] text-3xl font-bold mb-4 tracking-tight">{t("services.apps.title")}</h3>
+        <p class="relative z-[1] text-gray-400 text-lg">{t("services.apps.desc")}</p>
 
-      <!-- Other Services / Bento filler -->
-      <div
-        class="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-neon-blue/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden md:col-span-2"
-      >
-        <div
-          class="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
+        <!-- Phone mock -->
+        <div class="relative z-[1] mt-10 flex-1 flex items-end justify-center min-h-[340px]">
+          <div class="absolute bottom-10 w-56 h-56 rounded-full bg-neon-pink/30 blur-[80px]"></div>
+          <div class="relative w-[190px] h-[340px] rounded-[2.2rem] border-[6px] border-[#1d1d33] bg-dark-bg shadow-[0_30px_80px_-20px_rgba(255,0,212,0.5)] overflow-hidden animate-float transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-4 rounded-full bg-black z-10"></div>
+            <div class="p-4 pt-9 flex flex-col gap-3">
+              <div class="flex items-center justify-between">
+                <div class="h-2 w-16 rounded bg-white/30"></div>
+                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-neon-pink to-neon-purple"></div>
+              </div>
+              <div class="rounded-2xl p-3 bg-gradient-to-br from-neon-pink to-neon-purple">
+                <div class="h-2 w-12 rounded bg-white/60 mb-2"></div>
+                <div class="text-xl font-black">+248%</div>
+                <div class="mt-2 flex items-end gap-1 h-8">
+                  {[40, 65, 50, 80, 70, 100].map((h) => (
+                    <span data-bar class="flex-1 rounded-sm bg-white/70 origin-bottom" style={`height:${h}%`}></span>
+                  ))}
+                </div>
+              </div>
+              {[0, 1, 2].map((i) => (
+                <div class="flex items-center gap-2 rounded-xl bg-white/5 p-2">
+                  <div class:list={["w-7 h-7 rounded-lg", i === 0 ? "bg-neon-blue/60" : i === 1 ? "bg-neon-purple/60" : "bg-neon-pink/60"]}></div>
+                  <div class="flex-1">
+                    <div class="h-1.5 w-3/4 rounded bg-white/40 mb-1"></div>
+                    <div class="h-1.5 w-1/2 rounded bg-white/15"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div class="absolute left-0 top-10 flex items-center gap-2 rounded-full border border-white/10 bg-dark-bg/80 backdrop-blur px-3 py-2 text-xs animate-float [animation-delay:-2s]">
+            <Icon name="simple-icons:apple" class="w-4 h-4" /> iOS
+          </div>
+          <div class="absolute right-0 top-28 flex items-center gap-2 rounded-full border border-white/10 bg-dark-bg/80 backdrop-blur px-3 py-2 text-xs animate-float [animation-delay:-4s]">
+            <Icon name="simple-icons:android" class="w-4 h-4 text-[#3DDC84]" /> Android
+          </div>
         </div>
-        <h3 class="text-2xl font-bold mb-4 relative z-10">
-          {t("services.transform.title")}
-        </h3>
-        <p class="text-gray-400 relative z-10">
-          {t("services.transform.desc")}
-        </p>
-      </div>
+      </article>
+
+      <!-- Social -->
+      <article
+        data-reveal="clip"
+        data-spotlight
+        data-tilt="7"
+        class="spotlight group rounded-3xl bg-dark-card/70 backdrop-blur-md p-8 overflow-hidden lg:col-span-2 flex flex-col"
+        style="--spot: #9D00FF"
+      >
+        <div class="relative z-[1] flex items-start justify-between mb-6">
+          <div class="w-14 h-14 rounded-2xl grid place-items-center bg-neon-purple/10 text-neon-purple border border-neon-purple/20">
+            <Icon name="lucide:trending-up" class="w-7 h-7" />
+          </div>
+          <span class="font-mono text-sm text-gray-500">/10</span>
+        </div>
+        <h3 class="relative z-[1] text-2xl font-bold mb-3 tracking-tight">{t("services.social.title")}</h3>
+        <p class="relative z-[1] text-gray-400">{t("services.social.desc")}</p>
+        <div class="relative z-[1] mt-8 flex items-end gap-2 h-28">
+          {bars.map((h) => (
+            <span
+              data-bar
+              class="flex-1 rounded-t-md origin-bottom bg-gradient-to-t from-neon-purple/30 to-neon-purple group-hover:to-neon-pink transition-colors duration-500"
+              style={`height:${h}%`}
+            ></span>
+          ))}
+        </div>
+        <div class="relative z-[1] mt-6 flex items-center gap-3 text-gray-400">
+          <Icon name="simple-icons:instagram" class="w-5 h-5 hover:text-neon-pink transition-colors" />
+          <Icon name="simple-icons:tiktok" class="w-5 h-5 hover:text-white transition-colors" />
+          <Icon name="simple-icons:linkedin" class="w-5 h-5 hover:text-neon-blue transition-colors" />
+          <span class="ml-auto flex items-center gap-1 text-neon-pink text-sm font-semibold">
+            <Icon name="lucide:heart" class="w-4 h-4 fill-current animate-pulse" /> +12.4k
+          </span>
+        </div>
+      </article>
+
+      <!-- Transform -->
+      <article
+        data-reveal="clip"
+        data-spotlight
+        data-tilt="7"
+        class="spotlight group rounded-3xl bg-dark-card/70 backdrop-blur-md p-8 overflow-hidden lg:col-span-2 flex flex-col"
+        style="--spot: #00C2FF"
+      >
+        <div class="relative z-[1] flex items-start justify-between mb-6">
+          <div class="w-14 h-14 rounded-2xl grid place-items-center bg-neon-blue/10 text-neon-blue border border-neon-blue/20">
+            <Icon name="lucide:workflow" class="w-7 h-7" />
+          </div>
+          <span class="font-mono text-sm text-gray-500">/11</span>
+        </div>
+        <h3 class="relative z-[1] text-2xl font-bold mb-3 tracking-tight">{t("services.transform.title")}</h3>
+        <p class="relative z-[1] text-gray-400">{t("services.transform.desc")}</p>
+        <svg viewBox="0 0 300 110" class="relative z-[1] mt-6 w-full h-auto" aria-hidden="true">
+          <defs>
+            <linearGradient id="flow" x1="0" x2="1">
+              <stop offset="0" stop-color="#00C2FF"></stop>
+              <stop offset="1" stop-color="#FF00D4"></stop>
+            </linearGradient>
+          </defs>
+          <path d="M30 55 C 80 55, 80 20, 130 20 S 180 55, 230 55 L 270 55" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"></path>
+          <path d="M30 55 C 80 55, 80 90, 130 90 S 180 55, 230 55" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"></path>
+          <path class="flow-dash" d="M30 55 C 80 55, 80 20, 130 20 S 180 55, 230 55 L 270 55" fill="none" stroke="url(#flow)" stroke-width="2"></path>
+          <path class="flow-dash [animation-delay:-1s]" d="M30 55 C 80 55, 80 90, 130 90 S 180 55, 230 55" fill="none" stroke="url(#flow)" stroke-width="2"></path>
+          {[[30, 55], [130, 20], [130, 90], [230, 55], [270, 55]].map(([x, y], i) => (
+            <g>
+              <circle cx={x} cy={y} r="12" fill="#0b0b1d" stroke={i === 4 ? "#FF00D4" : "#00C2FF"} stroke-width="1.5"></circle>
+              <circle cx={x} cy={y} r="4" fill={i === 4 ? "#FF00D4" : "#00C2FF"} class="animate-pulse"></circle>
+            </g>
+          ))}
+        </svg>
+      </article>
     </div>
   </div>
 </section>
+
+<style>
+  .flow-dash {
+    stroke-dasharray: 24 260;
+    animation: flow 2.4s linear infinite;
+  }
+  @keyframes flow {
+    from {
+      stroke-dashoffset: 284;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>

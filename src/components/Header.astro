@@ -6,48 +6,60 @@ import { defaultLang, ui } from "../i18n/ui";
 
 const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
 const t = useTranslations(lang);
+
+const links = [
+  { href: "#services", label: t("nav.services") },
+  { href: "#about", label: t("nav.about") },
+  { href: "#contact", label: t("nav.contact") },
+];
 ---
 
-<header
-  class="fixed top-0 w-full z-50 bg-dark-bg/50 backdrop-blur-lg border-b border-white/10"
->
-  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+<header data-header class="fixed top-0 inset-x-0 z-50 px-4 pt-4 md:pt-6 group/header">
+  <div
+    class="mx-auto max-w-6xl flex justify-between items-center gap-4 rounded-full border border-white/10 bg-dark-bg/40 backdrop-blur-xl pl-6 pr-2 py-2 transition-[background-color,box-shadow] duration-500 group-[.is-scrolled]/header:bg-dark-bg/70 group-[.is-scrolled]/header:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)]"
+  >
     <a
       href={getRelativeLocaleUrl(lang, "/")}
-      class="text-2xl font-bold tracking-tighter"
+      class="text-xl md:text-2xl font-bold tracking-tighter relative z-[60] flex items-center gap-2"
+      aria-label="ZeroUno Lab"
     >
-      ZERO<span class="text-neon-blue">UNO</span>
-      <span class="text-neon-pink">LAB</span>
+      <span
+        class="inline-grid place-items-center w-8 h-8 rounded-lg bg-gradient-to-br from-neon-blue via-neon-purple to-neon-pink text-[11px] font-black font-mono text-white"
+        >01</span
+      >
+      <span>ZERO<span class="text-neon-blue">UNO</span> <span class="text-neon-pink">LAB</span></span>
     </a>
 
-    <nav class="hidden md:flex gap-8 items-center">
-      <a
-        href="#services"
-        class="hover:text-neon-blue transition-colors duration-300"
-        >{t("nav.services")}</a
-      >
-      <a
-        href="#about"
-        class="hover:text-neon-purple transition-colors duration-300"
-        >{t("nav.about")}</a
-      >
-      <a
-        href="#contact"
-        class="px-5 py-2 rounded-full border border-white/20 hover:border-neon-pink hover:text-neon-pink transition-all duration-300"
-      >
-        {t("nav.contact")}
-      </a>
+    <nav class="hidden md:flex gap-1 items-center">
+      {
+        links.slice(0, 2).map((l) => (
+          <a
+            href={l.href}
+            class="relative px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white transition-colors duration-300 overflow-hidden group/link"
+          >
+            <span class="relative block overflow-hidden">
+              <span class="block transition-transform duration-500 ease-[cubic-bezier(.7,0,.3,1)] group-hover/link:-translate-y-full">
+                {l.label}
+              </span>
+              <span class="absolute inset-0 block translate-y-full transition-transform duration-500 ease-[cubic-bezier(.7,0,.3,1)] group-hover/link:translate-y-0 text-neon-blue">
+                {l.label}
+              </span>
+            </span>
+          </a>
+        ))
+      }
 
       <div class="relative group">
         <button
-          class="text-gray-400 hover:text-white transition-colors duration-300 py-2 cursor-pointer"
+          class="text-gray-400 hover:text-white transition-colors duration-300 p-2 cursor-pointer flex items-center gap-1 text-xs uppercase tracking-widest"
           aria-label="Language Menu"
         >
-          <Icon name="lucide:globe" class="w-6 h-6" />
+          <Icon name="lucide:globe" class="w-4 h-4" />
+          {lang}
         </button>
 
         <div
-          class="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right"
+          class="absolute right-0 top-full pt-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible transition-all duration-300"
         >
           <div
             class="bg-dark-bg/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden min-w-[140px] flex flex-col"
@@ -73,19 +85,77 @@ const t = useTranslations(lang);
           </div>
         </div>
       </div>
+
+      <a
+        href="#contact"
+        data-magnetic="0.3"
+        class="relative ml-2 px-6 py-3 rounded-full bg-white text-dark-bg text-sm font-bold overflow-hidden group/cta"
+      >
+        <span
+          class="absolute inset-0 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink translate-y-full group-hover/cta:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(.7,0,.3,1)]"
+        ></span>
+        <span data-magnetic-inner class="relative block transition-colors duration-500 group-hover/cta:text-white">
+          {t("nav.contact")}
+        </span>
+      </a>
     </nav>
 
-    {
-      /* Mobile Menu Button - visible on small screens (implementation might be needed if generic nav is hidden) */
-    }
-    <div class="md:hidden flex items-center gap-4">
+    <div class="md:hidden flex items-center gap-2 relative z-[60]">
       <a
         href={getRelativeLocaleUrl(lang === "es" ? "en" : "es", "/")}
-        class="text-gray-400 hover:text-white transition-colors duration-300"
+        class="text-gray-300 hover:text-white transition-colors duration-300 p-2 text-xs uppercase tracking-widest flex items-center gap-1"
         aria-label="Change Language"
       >
-        <Icon name="lucide:globe" class="w-6 h-6" />
+        <Icon name="lucide:globe" class="w-4 h-4" />
+        {lang === "es" ? "en" : "es"}
       </a>
+      <button
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label={t("nav.menu")}
+        class="menu-toggle w-11 h-11 rounded-full bg-white text-dark-bg grid place-items-center cursor-pointer"
+      >
+        <span class="relative block w-4 h-3">
+          <span class="bar absolute left-0 top-0 w-full h-0.5 bg-current transition-transform duration-500"></span>
+          <span class="bar absolute left-0 bottom-0 w-full h-0.5 bg-current transition-transform duration-500"></span>
+        </span>
+      </button>
     </div>
   </div>
+
 </header>
+
+  <div
+    id="mobile-menu"
+    data-menu
+    class="fixed inset-0 z-40 hidden flex-col justify-between bg-gradient-to-br from-[#0a0a24] via-dark-bg to-[#1a0028] px-6 pt-32 pb-10 md:hidden"
+  >
+    <nav class="flex flex-col gap-2">
+      {
+        links.map((l, i) => (
+          <a href={l.href} class="block overflow-hidden">
+            <span data-menu-link class="flex items-baseline gap-4 text-5xl font-bold tracking-tight">
+              <span class="font-mono text-sm text-neon-blue">{i.toString(2).padStart(2, "0")}</span>
+              {l.label}
+            </span>
+          </a>
+        ))
+      }
+    </nav>
+    <div class="flex gap-6 text-gray-400">
+      <a href="https://www.instagram.com/zerounolab/" target="_blank" rel="noopener" aria-label="Instagram"><Icon name="simple-icons:instagram" class="w-6 h-6" /></a>
+      <a href="https://www.linkedin.com/company/zerounolab/" target="_blank" rel="noopener" aria-label="LinkedIn"><Icon name="simple-icons:linkedin" class="w-6 h-6" /></a>
+      <a href="mailto:info@zerounolab.dev" aria-label="Email"><Icon name="lucide:mail" class="w-6 h-6" /></a>
+    </div>
+  </div>
+
+
+<style>
+  .menu-toggle.is-open .bar:first-child {
+    transform: translateY(5px) rotate(45deg);
+  }
+  .menu-toggle.is-open .bar:last-child {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+</style>

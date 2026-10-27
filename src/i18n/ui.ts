@@ -12,11 +12,23 @@ export const ui = {
         'nav.services': 'Servicios',
         'nav.about': 'Nosotros',
         'nav.contact': 'Contacto',
+        'nav.menu': 'Menú',
+        'nav.close': 'Cerrar',
 
+        'loader.text': 'Compilando experiencia',
+
+        'hero.eyebrow': 'Estudio digital · Web & Apps',
+        'hero.line1': 'Construimos',
+        'hero.line2': 'el futuro',
+        'hero.line3': 'en código',
         'hero.subtitle': 'Creación de páginas web a medida, apps móviles y gestión de redes sociales.',
         'hero.startProject': 'Empezar Proyecto',
         'hero.viewServices': 'Ver Servicios',
+        'hero.scroll': 'Scroll',
 
+        'marquee.label': 'Stack tecnológico',
+
+        'services.eyebrow': '01 — Qué hacemos',
         'services.title': 'Nuestros',
         'services.titleHighlight': 'Servicios',
         'services.web.title': 'Web a Medida',
@@ -28,6 +40,27 @@ export const ui = {
         'services.transform.title': 'Transformación Digital',
         'services.transform.desc': 'Automatización de procesos, CRM, y consultoría tecnológica integral.',
 
+        'manifesto.text': 'No hacemos plantillas. Diseñamos productos digitales que se sienten vivos, cargan al instante y convierten visitantes en clientes.',
+
+        'about.eyebrow': '02 — Cómo trabajamos',
+        'about.title': 'Del',
+        'about.titleHighlight': '0 al 1',
+        'about.subtitle': 'Un proceso claro, sin sorpresas. Tú te centras en tu negocio; nosotros en convertir tu idea en producto.',
+        'about.step1.title': 'Descubrir',
+        'about.step1.desc': 'Escuchamos, analizamos tu negocio y definimos objetivos medibles.',
+        'about.step2.title': 'Diseñar',
+        'about.step2.desc': 'Prototipos interactivos y una identidad visual que no pasa desapercibida.',
+        'about.step3.title': 'Desarrollar',
+        'about.step3.desc': 'Código limpio, rápido y escalable. Web, iOS y Android.',
+        'about.step4.title': 'Lanzar',
+        'about.step4.desc': 'Publicamos, medimos y seguimos mejorando contigo.',
+
+        'stats.custom': 'Código a medida',
+        'stats.platforms': 'Plataformas: web, iOS y Android',
+        'stats.languages': 'Idiomas de trabajo',
+        'stats.free': 'Primera consulta',
+
+        'contact.eyebrow': '03 — Hablemos',
         'contact.title': '¿Listo para',
         'contact.titleHighlight': 'innovar',
         'contact.subtitle': 'Hablemos de tu próximo proyecto. La primera consulta es gratuita.',
@@ -45,18 +78,32 @@ export const ui = {
 
         'footer.description': 'Digitalizando empresas con soluciones a medida. Desarrollo web, apps y marketing digital.',
         'footer.rights': 'Todos los derechos reservados.',
+        'footer.top': 'Volver arriba',
 
         'meta.title': 'ZeroUno Lab | Digitalizando el Futuro',
+        'meta.description': 'Estudio digital especializado en páginas web a medida, aplicaciones móviles iOS y Android y gestión de redes sociales.',
     },
     en: {
         'nav.services': 'Services',
         'nav.about': 'About Us',
         'nav.contact': 'Contact',
+        'nav.menu': 'Menu',
+        'nav.close': 'Close',
 
+        'loader.text': 'Compiling experience',
+
+        'hero.eyebrow': 'Digital studio · Web & Apps',
+        'hero.line1': 'We build',
+        'hero.line2': 'the future',
+        'hero.line3': 'in code',
         'hero.subtitle': 'Custom web development, mobile apps, and social media management.',
         'hero.startProject': 'Start Project',
         'hero.viewServices': 'View Services',
+        'hero.scroll': 'Scroll',
 
+        'marquee.label': 'Tech stack',
+
+        'services.eyebrow': '01 — What we do',
         'services.title': 'Our',
         'services.titleHighlight': 'Services',
         'services.web.title': 'Custom Web Development',
@@ -68,6 +115,27 @@ export const ui = {
         'services.transform.title': 'Digital Transformation',
         'services.transform.desc': 'Process automation, CRM, and comprehensive technology consulting.',
 
+        'manifesto.text': 'We don\'t do templates. We design digital products that feel alive, load instantly and turn visitors into customers.',
+
+        'about.eyebrow': '02 — How we work',
+        'about.title': 'From',
+        'about.titleHighlight': '0 to 1',
+        'about.subtitle': 'A clear process with no surprises. You focus on your business; we turn your idea into a product.',
+        'about.step1.title': 'Discover',
+        'about.step1.desc': 'We listen, analyse your business and define measurable goals.',
+        'about.step2.title': 'Design',
+        'about.step2.desc': 'Interactive prototypes and a visual identity that stands out.',
+        'about.step3.title': 'Develop',
+        'about.step3.desc': 'Clean, fast and scalable code. Web, iOS and Android.',
+        'about.step4.title': 'Launch',
+        'about.step4.desc': 'We ship, measure and keep improving with you.',
+
+        'stats.custom': 'Custom-built code',
+        'stats.platforms': 'Platforms: web, iOS and Android',
+        'stats.languages': 'Working languages',
+        'stats.free': 'First consultation',
+
+        'contact.eyebrow': '03 — Let\'s talk',
         'contact.title': 'Ready to',
         'contact.titleHighlight': 'innovate',
         'contact.subtitle': 'Let\'s talk about your next project. The first consultation is free.',
@@ -85,7 +153,9 @@ export const ui = {
 
         'footer.description': 'Digitizing businesses with custom solutions. Web development, apps, and digital marketing.',
         'footer.rights': 'All rights reserved.',
+        'footer.top': 'Back to top',
 
         'meta.title': 'ZeroUno Lab | Digitizing the Future',
+        'meta.description': 'Digital studio specialised in custom websites, iOS and Android mobile apps and social media management.',
     },
 } as const;

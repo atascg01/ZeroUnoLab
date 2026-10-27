@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components";
 import { useTranslations } from "../utils/i18n";
 import { defaultLang, ui } from "../i18n/ui";
 
@@ -7,122 +8,99 @@ const t = useTranslations(lang);
 ---
 
 <section
-  class="min-h-screen flex flex-col justify-center items-center relative overflow-hidden pt-20"
+  id="hero"
+  data-scene-state="0"
+  class="min-h-[100svh] flex flex-col justify-center relative overflow-hidden pt-28 pb-24"
 >
-  <!-- Dynamic Background Glow -->
-  <div
-    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-neon-blue/20 blur-[100px] rounded-full animate-pulse z-0"
-  >
-  </div>
-  <div
-    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-neon-pink/20 blur-[80px] rounded-full translate-x-20 translate-y-20 z-0"
-  >
-  </div>
-
-  <div class="z-10 text-center px-4">
-    <h1
-      class="mb-4 animate-fade-in flex flex-col items-center justify-center will-change-transform"
-    >
+  <div data-hero-content class="container mx-auto px-6 relative z-10">
+    <div class="max-w-5xl">
       <div
-        class="relative w-full max-w-[90vw] md:max-w-4xl h-24 md:h-40 flex justify-center items-center"
+        data-hero-eyebrow
+        class="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md pl-2 pr-4 py-1.5 mb-8 text-xs md:text-sm text-gray-300"
       >
-        <!-- SVG Text for perfect gradient rendering -->
-        <svg viewBox="0 0 600 120" class="w-full h-full overflow-visible">
-          <defs>
-            <linearGradient
-              id="neon-gradient"
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="0%"
-            >
-              <stop offset="0%" style="stop-color:#00C2FF;stop-opacity:1"
-              ></stop>
-              <stop offset="100%" style="stop-color:#9D00FF;stop-opacity:1"
-              ></stop>
-            </linearGradient>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="15" result="coloredBlur"
-              ></feGaussianBlur>
-              <feMerge>
-                <feMergeNode in="coloredBlur"></feMergeNode>
-                <feMergeNode in="SourceGraphic"></feMergeNode>
-              </feMerge>
-            </filter>
-          </defs>
-
-          <!-- Blurred Glow Layer -->
-          <text
-            x="50%"
-            y="85%"
-            text-anchor="middle"
-            font-size="100"
-            font-weight="900"
-            fill="url(#neon-gradient)"
-            filter="url(#glow)"
-            opacity="0.6"
-            style="font-family: 'Inter', sans-serif; letter-spacing: -2px;"
-          >
-            ZEROUNO
-          </text>
-
-          <!-- Main Text Layer -->
-          <text
-            x="50%"
-            y="85%"
-            text-anchor="middle"
-            font-size="100"
-            font-weight="900"
-            fill="url(#neon-gradient)"
-            style="font-family: 'Inter', sans-serif; letter-spacing: -2px;"
-          >
-            ZEROUNO
-          </text>
-        </svg>
+        <span class="relative flex h-6 w-6 items-center justify-center rounded-full bg-neon-blue/15">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-neon-blue/40"></span>
+          <span class="relative h-2 w-2 rounded-full bg-neon-blue"></span>
+        </span>
+        {t("hero.eyebrow")}
       </div>
 
-      <span
-        class="block text-white text-3xl md:text-5xl font-bold tracking-widest drop-shadow-[0_0_15px_rgba(255,0,212,0.5)] -mt-2 md:-mt-4"
+      <h1
+        class="font-display font-black tracking-[-0.04em] leading-[0.92] text-[clamp(3rem,10.5vw,8.5rem)] [perspective:600px]"
       >
-        LAB
-      </span>
-    </h1>
+        <span data-hero-line class="split-line">{t("hero.line1")}</span>
+        <span data-hero-line data-no-split class="split-line">
+          <span class="inline-block text-gradient pr-2">{t("hero.line2")}</span>
+        </span>
+        <span data-hero-line class="split-line text-outline">{t("hero.line3")}</span>
+      </h1>
 
-    <p
-      class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto mb-10 tracking-wide font-light"
-    >
-      {t("hero.subtitle")}
-    </p>
+      <p
+        data-hero-sub
+        class="mt-8 text-lg md:text-2xl text-gray-300 max-w-xl tracking-wide font-light min-h-[3.5em] md:min-h-[2.5em]"
+      >
+        {t("hero.subtitle")}
+      </p>
 
-    <div class="flex flex-col md:flex-row gap-6 justify-center">
-      <a
-        href="#contact"
-        class="px-8 py-4 bg-white text-dark-bg font-bold rounded-full hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-      >
-        {t("hero.startProject")}
+      <div class="mt-10 flex flex-col sm:flex-row gap-4">
+        <a
+          href="#contact"
+          data-hero-cta
+          data-magnetic="0.4"
+          data-cursor="Go"
+          class="group relative inline-flex items-center justify-center gap-3 px-8 py-5 rounded-full bg-white text-dark-bg font-bold overflow-hidden shadow-[0_0_40px_rgba(0,194,255,0.35)]"
+        >
+          <span
+            class="absolute inset-0 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(.7,0,.3,1)]"
+          ></span>
+          <span data-magnetic-inner class="relative flex items-center gap-3 group-hover:text-white transition-colors duration-500">
+            {t("hero.startProject")}
+            <Icon name="lucide:arrow-up-right" class="w-5 h-5 transition-transform duration-500 group-hover:rotate-45" />
+          </span>
+        </a>
+        <a
+          href="#services"
+          data-hero-cta
+          data-magnetic="0.3"
+          class="group relative inline-flex items-center justify-center gap-3 px-8 py-5 rounded-full border border-white/20 text-white font-medium backdrop-blur-sm hover:border-white/60 transition-colors duration-300"
+        >
+          <span data-magnetic-inner class="relative flex items-center gap-3">
+            {t("hero.viewServices")}
+            <Icon name="lucide:arrow-down" class="w-5 h-5 transition-transform duration-500 group-hover:translate-y-1" />
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom meta row -->
+  <div class="absolute bottom-8 inset-x-0 z-10">
+    <div class="container mx-auto px-6 flex items-end justify-between text-xs font-mono text-gray-500">
+      <div data-hero-meta class="hidden md:flex flex-col gap-1">
+        <span>[ 0 , 1 ]</span>
+        <span>WEB · iOS · ANDROID</span>
+      </div>
+      <a href="#services" data-hero-meta class="flex flex-col items-center gap-3 mx-auto md:mx-0 uppercase tracking-[0.3em]">
+        {t("hero.scroll")}
+        <span class="relative block w-px h-14 bg-white/10 overflow-hidden">
+          <span class="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent to-neon-blue animate-[scroll-line_1.8s_cubic-bezier(.7,0,.3,1)_infinite]"></span>
+        </span>
       </a>
-      <a
-        href="#services"
-        class="px-8 py-4 bg-transparent border border-white/30 text-white font-medium rounded-full hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
-      >
-        {t("hero.viewServices")}
-      </a>
+      <div data-hero-meta class="hidden md:flex flex-col gap-1 items-end">
+        <span>ZEROUNO LAB</span>
+        <span>©{new Date().getFullYear()}</span>
+      </div>
     </div>
   </div>
 </section>
 
-<style>
-  /* Optional custom animation if Tailwind 'animate-pulse' isn't enough */
-  .animate-fade-in {
-    animation: fadeIn 1.5s ease-out forwards;
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-      transform: translateY(0);
+<style is:global>
+  @keyframes scroll-line {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(200%);
     }
   }
 </style>
